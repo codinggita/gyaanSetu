@@ -195,7 +195,40 @@ export const mockCourses = [
     duration: '10 Weeks',
     labs: 15,
     isPopular: true,
-  }
+    requirements: [
+      'Basic understanding of HTML and CSS',
+      'A computer with at least 4GB RAM',
+      'Internet connection for browser labs'
+    ],
+    outcomes: [
+      'Build real-world MERN stack applications',
+      'Master React Hooks and Context API',
+      'Deploy full-stack apps to the cloud',
+      'Architect scalable Node.js backends'
+    ],
+    curriculum: [
+      {
+        title: 'Introduction to Web Development',
+        lessons: [
+          { title: 'How the Web Works', duration: '15m', type: 'video', isFreePreview: true },
+          { title: 'Setting Up Your Cloud Environment', duration: '10m', type: 'lab', isFreePreview: true },
+        ]
+      },
+      {
+        title: 'React Fundamentals',
+        lessons: [
+          { title: 'JSX and Component Architecture', duration: '25m', type: 'video' },
+          { title: 'State & Props Deep Dive', duration: '35m', type: 'video' },
+          { title: 'Lab: Building Your First Component', duration: '20m', type: 'lab' },
+        ]
+      }
+    ],
+    reviews: 210,
+    reviewItems: [
+      { name: 'Rahul S.', rating: 5, date: '2 days ago', text: 'Best course ever! The bilingual approach is amazing.' },
+      { name: 'Sonal M.', rating: 4, date: '1 week ago', text: 'Great content, but the labs are a bit challenging.' }
+    ]
+  },
 ];
 
 export const mockTestimonials = [
