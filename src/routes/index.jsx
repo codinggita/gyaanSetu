@@ -15,8 +15,8 @@ import { useAnalytics } from '../hooks/useAnalytics';
 const Landing = lazy(() => import('../pages/public/Landing'));
 const Pricing = lazy(() => import('../pages/public/Landing')); // Reuse placeholder
 const Contact = lazy(() => import('../pages/public/Landing'));
-const CourseCatalog = lazy(() => import('../pages/public/Landing'));
-const CourseDetail = lazy(() => import('../pages/public/Landing'));
+const CourseCatalog = lazy(() => import('../pages/courses/CourseCatalog'));
+const CourseDetail = lazy(() => import('../pages/courses/CourseDetail'));
 const InstructorProfile = lazy(() => import('../pages/public/Landing'));
 const NotFound = lazy(() => import('../pages/public/Landing'));
 

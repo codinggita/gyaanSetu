@@ -22,7 +22,6 @@ const ProtectedRoute = () => {
   }
 
   // Handle onboarding requirement
-  // Exception: don't redirect if already on an onboarding route
   const isOnboardingRoute = location.pathname.startsWith('/onboarding');
   if (!onboardingComplete && !isOnboardingRoute) {
     return <Navigate to="/onboarding/language" replace />;
