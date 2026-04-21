@@ -13,11 +13,11 @@ import { useAnalytics } from '../hooks/useAnalytics';
 
 // Lazy loading all pages
 const Landing = lazy(() => import('../pages/public/Landing'));
-const Pricing = lazy(() => import('../pages/public/Landing')); // Reuse placeholder
-const Contact = lazy(() => import('../pages/public/Landing'));
+const Pricing = lazy(() => import('../pages/public/Pricing'));
+const Contact = lazy(() => import('../pages/public/Contact'));
 const CourseCatalog = lazy(() => import('../pages/courses/CourseCatalog'));
 const CourseDetail = lazy(() => import('../pages/courses/CourseDetail'));
-const InstructorProfile = lazy(() => import('../pages/public/Landing'));
+const InstructorProfile = lazy(() => import('../pages/profile/InstructorProfile'));
 const NotFound = lazy(() => import('../pages/public/Landing'));
 
 const Login = lazy(() => import('../pages/auth/Login'));
@@ -28,7 +28,7 @@ const LanguageSelection = lazy(() => import('../pages/onboarding/LanguageSelecti
 const GoalSetting = lazy(() => import('../pages/onboarding/GoalSetting'));
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
-const MyCourses = lazy(() => import('../pages/dashboard/Dashboard'));
+const MyCourses = lazy(() => import('../pages/courses/MyCourses'));
 const CourseLearning = lazy(() => import('../pages/courses/CourseLearning'));
 const LabCatalog = lazy(() => import('../pages/dashboard/Dashboard'));
 const LabEnvironment = lazy(() => import('../pages/labs/LabEnvironment'));

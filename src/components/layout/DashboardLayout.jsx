@@ -8,36 +8,31 @@ import useTheme from '../../hooks/useTheme';
 
 /**
  * DashboardLayout - Main layout for authenticated users
+ * Refined to Flexbox architecture to avoid sidebar overlapping issues.
  */
 const DashboardLayout = () => {
-  const { sidebarOpen } = useSelector((state) => state.ui);
   const { isDark } = useTheme();
 
   return (
     <div className={cn(
-      'min-h-screen bg-gray-50/30 transition-colors duration-300 font-body',
-      isDark ? 'dark bg-slate-950' : 'bg-white'
+      'min-h-screen transition-colors duration-300 font-body flex overflow-hidden',
+      isDark ? 'dark bg-slate-950 text-white' : 'bg-gray-50/30 text-slate-900'
     )}>
-      {/* Sidebar Navigation */}
+      {/* Sidebar Navigation - Controlled fixed width flex child */}
       <Sidebar />
 
-      {/* Main Content Area */}
-      <div 
-        className={cn(
-          'transition-all duration-300 min-h-screen flex flex-col',
-          sidebarOpen ? 'pl-64' : 'pl-24'
-        )}
-      >
+      {/* Main Content Area - Flexible scrollable area */}
+      <div className="flex-grow flex flex-col min-w-0 h-screen overflow-y-auto">
         <AuthNavbar />
 
         <main className="flex-grow p-4 md:p-8" id="main-content">
-          <div className="max-w-[1600px] mx-auto animate-fade-in">
+          <div className="max-w-[1600px] mx-auto animate-fade-in pb-20">
             <Outlet />
           </div>
         </main>
 
-        <footer className="px-8 py-6 border-t border-gray-100 dark:border-slate-800 text-center md:text-left">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+        <footer className="px-8 py-6 border-t border-gray-100 dark:border-slate-800 text-center md:text-left bg-white/50 dark:bg-slate-950/50 backdrop-blur-md">
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
             GyaanSetu Dashboard v1.0.0 — Build Phase
           </p>
         </footer>
