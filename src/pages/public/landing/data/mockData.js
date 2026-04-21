@@ -441,3 +441,97 @@ export const mockActivityHistory = [
   { id: 4, type: 'badge_earned', title: 'Sprint Master Badge', date: '5 hours ago', xp: 250 }
 ];
 
+export const mockInstructors = [
+  {
+    id: 'inst1',
+    name: 'Sameer Khan',
+    designation: 'Senior Cloud Architect',
+    company: 'CloudNative Solutions',
+    rating: 4.9,
+    totalReviews: 2450,
+    students: '15.2K',
+    courses: 8,
+    years: 12,
+    avatar: 'https://i.pravatar.cc/150?u=sameer',
+    languages: ['Hindi', 'English'],
+    skills: ['AWS', 'Docker', 'Kubernetes', 'Terraform', 'DevOps'],
+    bio: 'Sameer is a veteran cloud architect who believes in the power of bilingual education. He has helped over 15,000 students transition to cloud careers by simplifying complex deployment strategies into easy-to-understand Hindi and English modules.',
+    experience: [
+      { role: 'Lead Architect', company: 'CloudNative', years: '2020-Present' },
+      { role: 'DevOps Engineer', company: 'TechSolutions', years: '2016-2020' }
+    ]
+  },
+  {
+    id: 'inst2',
+    name: 'Ananya Sharma',
+    designation: 'Staff Frontend Engineer',
+    company: 'DesignFirst Systems',
+    rating: 4.8,
+    totalReviews: 1820,
+    students: '9.8K',
+    courses: 5,
+    years: 8,
+    avatar: 'https://i.pravatar.cc/150?u=ananya',
+    languages: ['Marathi', 'English', 'Hindi'],
+    skills: ['React', 'TypeScript', 'Next.js', 'Framer Motion', 'Tailwind'],
+    bio: 'Ananya is passionate about building immersive user experiences. She focuses on teaching the "Why" behind the code, ensuring students don\'t just learn syntax but master the art of frontend architecture.',
+    experience: [
+      { role: 'Staff Engineer', company: 'DesignFirst', years: '2021-Present' },
+      { role: 'Senior Developer', company: 'UICreate', years: '2018-2021' }
+    ]
+  }
+];
+
+export const pricingPlans = [
+  {
+    id: 'free',
+    name: 'Free',
+    monthlyPrice: 0,
+    annualPrice: 0,
+    buttonText: 'Get Started',
+    variant: 'gray',
+    features: ['5 Labs per month', 'English only', 'Community support', 'No certificates', 'Basic courses']
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    monthlyPrice: 499,
+    annualPrice: 349,
+    buttonText: 'Start Free Trial',
+    variant: 'primary',
+    isRecommended: true,
+    features: ['Unlimited Labs', 'All languages', 'Priority support', 'Verified Certificates', 'All premium courses', 'Direct mentor help']
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    monthlyPrice: 'Custom',
+    annualPrice: 'Custom',
+    buttonText: 'Contact Sales',
+    variant: 'teal',
+    features: ['All Pro features', 'Custom learning paths', 'Dedicated account manager', 'Branded certificates', 'Advanced analytics', 'SSO/API access']
+  }
+];
+
+export const mockFaqs = [
+  {
+    question: 'How do the bilingual courses work?',
+    answer: 'Our courses provide a seamless transition between your native language (like Hindi, Marathi, or Gujarati) and technical English. This ensures you understand the concepts deeply while learning the global industry terminology.'
+  },
+  {
+    question: 'Are the certificates industry-recognized?',
+    answer: 'Yes! Every certificate earned on GyaanSetu is verified on the blockchain and includes a list of hands-on labs you completed, making it highly valuable for recruitment.'
+  },
+  {
+    question: 'Can I cancel my subscription anytime?',
+    answer: 'Absolutely. You can cancel your subscription with a single click from your account settings. You will retain access to premium features until the end of your current billing cycle.'
+  },
+  {
+    question: 'Do I need a high-end PC for the labs?',
+    answer: 'No. All our labs run in our cloud-based environment. As long as you have a stable internet connection and a modern web browser, you can run complex cloud architectures on a basic laptop.'
+  },
+  {
+    question: 'What is the "Pro" scholarship program?',
+    answer: 'We offer financial aid to students from low-income households. You can apply for the GyaanSetu Scholarship if you meet our academic criteria, which can cover up to 100% of your Pro plan costs.'
+  }
+];
