@@ -34,8 +34,8 @@ const LabCatalog = lazy(() => import('../pages/dashboard/Dashboard'));
 const LabEnvironment = lazy(() => import('../pages/labs/LabEnvironment'));
 const ProjectCatalog = lazy(() => import('../pages/projects/ProjectCatalog'));
 const ProjectWorkspace = lazy(() => import('../pages/projects/ProjectWorkspace'));
-const StudentProfile = lazy(() => import('../pages/dashboard/Dashboard'));
-const Leaderboard = lazy(() => import('../pages/dashboard/Dashboard'));
+import StudentProfile from '../pages/profile/StudentProfile';
+import Leaderboard from '../pages/leaderboard/Leaderboard';
 const Settings = lazy(() => import('../pages/dashboard/Dashboard'));
 
 const AppRouter = () => {
@@ -76,6 +76,7 @@ const AppRouter = () => {
             <Route path="/labs" element={<LabCatalog />} />
             <Route path="/projects" element={<ProjectCatalog />} />
             <Route path="/projects/:projectId" element={<ProjectWorkspace />} />
+            <Route path="/profile" element={<StudentProfile />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/settings" element={<Settings />} />
           </Route>

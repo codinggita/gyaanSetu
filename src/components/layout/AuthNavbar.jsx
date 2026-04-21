@@ -50,10 +50,10 @@ const AuthNavbar = () => {
           <div className="flex items-center space-x-3 cursor-pointer group">
             <div className="hidden md:block text-right">
               <p className="text-sm font-black text-gray-900 dark:text-gray-100 leading-none">
-                {user?.name || 'Dhruv Ozha'}
+                {user?.name === 'Scholar Bharat' ? 'Dhruv Ozha' : (user?.name || 'Dhruv Ozha')}
               </p>
               <p className="text-[10px] font-bold text-primary tracking-widest mt-1 uppercase">
-                {user?.role || 'Pro Scholar'}
+                {user?.role || 'Elite Scholar'}
               </p>
             </div>
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-primary p-0.5 shadow-lg shadow-orange-100 dark:shadow-none group-hover:scale-105 transition-transform">

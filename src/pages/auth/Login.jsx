@@ -31,10 +31,10 @@ const Login = () => {
     // Mock successful login
     const mockUser = {
       id: '1',
-      name: 'Scholar Bharat',
+      name: 'Dhruv Ozha',
       email: formData.email,
       role: 'student',
-      avatar: 'https://i.pravatar.cc/150?u=bharat'
+      avatar: 'https://i.pravatar.cc/150?u=dhruv'
     };
     
     dispatch(setCredentials({ user: mockUser, token: 'mock-jwt-token' }));

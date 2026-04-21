@@ -11,7 +11,8 @@ export const mockCourses = [
     language: 'English',
     level: 'Beginner',
     rating: 4.8,
-    reviews: 1250,
+    reviews: 1240,
+    tags: ['Cloud', 'DevOps', 'CI/CD'],
     price: 499,
     originalPrice: 2499,
     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60',
@@ -223,7 +224,6 @@ export const mockCourses = [
         ]
       }
     ],
-    reviews: 210,
     reviewItems: [
       { name: 'Rahul S.', rating: 5, date: '2 days ago', text: 'Best course ever! The bilingual approach is amazing.' },
       { name: 'Sonal M.', rating: 4, date: '1 week ago', text: 'Great content, but the labs are a bit challenging.' }
@@ -418,3 +418,26 @@ export const mockAnnouncements = [
     desc: 'We are officially Indias fastest growing bilingual tech community.'
   }
 ];
+
+export const mockUserSkills = [
+  { name: 'React.js', level: 85, category: 'Frontend' },
+  { name: 'Node.js', level: 70, category: 'Backend' },
+  { name: 'Python', level: 60, category: 'Data Science' },
+  { name: 'Tailwind CSS', level: 95, category: 'Design' },
+  { name: 'PostgreSQL', level: 50, category: 'Database' }
+];
+
+export const mockAchievements = [
+  { id: 1, name: 'Early Adopter', icon: 'Sparkles', date: 'Oct 1, 2026', desc: 'Joined GyaanSetu in its first week!' },
+  { id: 2, name: 'Lab Crusher', icon: 'Zap', date: 'Oct 5, 2026', desc: 'Completed 5 labs with 100% accuracy.' },
+  { id: 3, name: 'Community Pillar', icon: 'Users', date: 'Oct 12, 2026', desc: 'Helped 10 other students in the discussion forums.' },
+  { id: 4, name: 'Sprint Master', icon: 'Flame', date: 'Oct 15, 2026', desc: 'Maintained a 7-day learning streak.' }
+];
+
+export const mockActivityHistory = [
+  { id: 1, type: 'course_completed', title: 'Fullstack Web Development with Hindi', date: '2 days ago', xp: 500 },
+  { id: 2, type: 'lab_started', title: 'Dockerizing a Microservice', date: 'Yesterday', xp: 50 },
+  { id: 3, type: 'project_submission', title: 'Fintech Mobile Wallet', date: '3 hours ago', xp: 1200 },
+  { id: 4, type: 'badge_earned', title: 'Sprint Master Badge', date: '5 hours ago', xp: 250 }
+];
+
