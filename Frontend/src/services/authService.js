@@ -40,4 +40,10 @@ export const authService = {
     await fakeDelay(200);
     return mockUser;
   },
+
+  async updateProfile(payload) {
+    if (useReal) return (await api.put("/auth/profile", payload)).data;
+    await fakeDelay();
+    return { token: "mock-jwt-token", user: { ...mockUser, ...payload } };
+  },
 };
