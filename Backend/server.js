@@ -53,6 +53,14 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', apiRoutes);
 
+// Fallback: Also mount at root for resilience
+app.use('/auth', authRoutes);
+app.use('/me', meRoutes);
+app.use('/enroll', enrollmentRoutes);
+app.use('/admin', adminRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/', apiRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 httpServer.listen(PORT, () => {
