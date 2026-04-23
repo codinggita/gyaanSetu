@@ -6,6 +6,7 @@ import { Icon } from "@/components/Icon";
 import { courseService } from "@/services/courseService";
 import { PageLoader } from "@/components/Loaders";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function CourseLearning() {
   const { courseId, lessonId } = useParams();
@@ -20,8 +21,15 @@ export default function CourseLearning() {
     queryFn: () => courseService.modules(courseId),
     enabled: !!courseId,
   });
+  const { data: status, refetch: refetchStatus } = useQuery({
+    queryKey: ["enrollment-status", courseId],
+    queryFn: () => courseService.getStatus(course.id),
+    enabled: !!course?.id,
+  });
+
   const [tab, setTab] = useState("notes");
   const [notes, setNotes] = useState("");
+  const [marking, setMarking] = useState(false);
 
   const flat = useMemo(
     () => modules?.flatMap((m) => m.lessons.map((l) => ({ ...l, moduleTitle: m.title }))) ?? [],
@@ -31,6 +39,20 @@ export default function CourseLearning() {
   const current = idx >= 0 ? flat[idx] : flat[0];
   const prev = idx > 0 ? flat[idx - 1] : null;
   const next = idx < flat.length - 1 ? flat[idx + 1] : null;
+
+  const isCompleted = status?.completedLessons?.includes(current?.id);
+
+  const handleComplete = async () => {
+    if (!course?.id || !current?.id || isCompleted) return;
+    setMarking(true);
+    try {
+      await courseService.updateProgress(course.id, current.id);
+      await refetchStatus();
+      toast.success("Lesson completed!");
+    } finally {
+      setMarking(false);
+    }
+  };
 
   if (isLoading || !course || !current) return <PageLoader />;
 
@@ -46,14 +68,19 @@ export default function CourseLearning() {
           <p className="text-xs font-bold text-primary uppercase tracking-widest">{course.category}</p>
           <h1 className="font-black text-on-surface truncate">{course.title}</h1>
         </div>
-        <div className="hidden md:flex items-center gap-2 text-sm text-on-surface-variant">
-          <Icon name="task_alt" /> Lesson {idx + 1} of {flat.length}
+        <div className="hidden md:flex items-center gap-4">
+          <div className="text-sm text-on-surface-variant flex items-center gap-2">
+            <Icon name="analytics" className="text-primary" /> {status?.progress || 0}% Complete
+          </div>
+          <div className="text-sm text-on-surface-variant flex items-center gap-2 border-l pl-4 border-outline-variant">
+            <Icon name="task_alt" /> Lesson {idx + 1} of {flat.length}
+          </div>
         </div>
       </header>
 
       <div className="grid lg:grid-cols-[1fr_360px]">
         <main className="p-6 lg:p-8 space-y-6">
-          <div className="aspect-video bg-inverse-surface rounded-2xl overflow-hidden grid place-items-center text-inverse-on-surface relative">
+          <div className="aspect-video bg-inverse-surface rounded-2xl overflow-hidden grid place-items-center text-inverse-on-surface relative shadow-ambient-lg">
             <img
               src={course.thumbnail}
               alt={current.title}
@@ -64,25 +91,39 @@ export default function CourseLearning() {
             </button>
           </div>
 
-          <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30">
             <div>
-              <p className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">{current.moduleTitle}</p>
+              <p className="text-xs uppercase tracking-widest font-bold text-primary">{current.moduleTitle}</p>
               <h2 className="text-2xl font-black text-on-surface mt-1">{current.title}</h2>
             </div>
             <div className="flex gap-2">
               <button
+                onClick={handleComplete}
+                disabled={isCompleted || marking}
+                className={cn(
+                  "px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all",
+                  isCompleted 
+                    ? "bg-secondary-fixed text-on-secondary-fixed cursor-default" 
+                    : "primary-gradient text-on-primary hover:shadow-ambient-lg disabled:opacity-50"
+                )}
+              >
+                <Icon name={isCompleted ? "check_circle" : "task_alt"} className="text-lg" />
+                {isCompleted ? "Completed" : marking ? "Saving..." : "Mark as Complete"}
+              </button>
+              <div className="h-10 w-[1px] bg-outline-variant mx-2" />
+              <button
                 disabled={!prev}
                 onClick={() => prev && navigate(`/learn/${course.slug}/${prev.id}`)}
-                className="px-4 py-2.5 bg-surface-container-lowest text-on-surface rounded-xl font-bold disabled:opacity-50 flex items-center gap-2"
+                className="w-10 h-10 grid place-items-center bg-surface-container-low text-on-surface rounded-xl hover:bg-surface-container-high disabled:opacity-30"
               >
-                <Icon name="arrow_back" className="text-base" /> Prev
+                <Icon name="arrow_back" />
               </button>
               <button
                 disabled={!next}
                 onClick={() => next && navigate(`/learn/${course.slug}/${next.id}`)}
-                className="px-4 py-2.5 primary-gradient text-on-primary rounded-xl font-bold disabled:opacity-50 flex items-center gap-2"
+                className="w-10 h-10 grid place-items-center bg-surface-container-low text-on-surface rounded-xl hover:bg-surface-container-high disabled:opacity-30"
               >
-                Next <Icon name="arrow_forward" className="text-base" />
+                <Icon name="arrow_forward" />
               </button>
             </div>
           </div>
@@ -135,23 +176,24 @@ export default function CourseLearning() {
                   <ul className="space-y-1">
                     {m.lessons.map((l) => {
                       const active = l.id === current.id;
+                      const done = status?.completedLessons?.includes(l.id);
                       return (
                         <li key={l.id}>
                           <Link
                             to={`/learn/${course.slug}/${l.id}`}
                             className={cn(
-                              "flex items-center gap-3 px-3 py-2 rounded-xl text-sm",
+                              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors",
                               active
-                                ? "bg-primary-fixed text-on-primary-fixed font-bold"
+                                ? "bg-primary text-on-primary font-bold shadow-ambient"
                                 : "text-on-surface hover:bg-surface-container-low",
                             )}
                           >
                             <Icon
-                              name={l.completed ? "check_circle" : l.type === "video" ? "play_circle" : "biotech"}
-                              className={l.completed ? "text-secondary" : active ? "text-primary" : "text-on-surface-variant"}
+                              name={done ? "check_circle" : l.type === "video" ? "play_circle" : "biotech"}
+                              className={done ? "text-secondary" : active ? "text-on-primary" : "text-on-surface-variant"}
                             />
                             <span className="flex-1 truncate">{l.title}</span>
-                            <span className="text-xs text-on-surface-variant">{l.duration}</span>
+                            <span className={cn("text-xs", active ? "text-on-primary/80" : "text-on-surface-variant")}>{l.duration}</span>
                           </Link>
                         </li>
                       );

@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import apiRoutes from './routes/apiRoutes.js';
 import meRoutes from './routes/meRoutes.js';
+import enrollmentRoutes from './routes/enrollmentRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -19,6 +20,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/me', meRoutes);
+app.use('/api/enroll', enrollmentRoutes);
 app.use('/api', apiRoutes);
 
 const PORT = process.env.PORT || 5000;

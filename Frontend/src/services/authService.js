@@ -30,7 +30,7 @@ export const authService = {
   },
 
   async resetPassword(token, password) {
-    if (useReal) return (await api.post("/auth/reset-password", { token, password })).data;
+    if (useReal) return (await api.post(`/auth/reset-password/${token}`, { password })).data;
     await fakeDelay();
     return { ok: true };
   },

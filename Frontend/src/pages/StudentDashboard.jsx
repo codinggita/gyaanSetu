@@ -48,7 +48,7 @@ export default function StudentDashboard() {
         ) : (
           <div className="grid md:grid-cols-3 gap-6">
             {my?.map((c) => (
-              <Link key={c.id} to={`/learn/${c.slug}/ls_5`} className="bg-surface-container-lowest rounded-2xl overflow-hidden group hover:shadow-ambient transition-shadow">
+              <Link key={c.id} to={`/learn/${c.slug}`} className="bg-surface-container-lowest rounded-2xl overflow-hidden group hover:shadow-ambient transition-shadow">
                 <div className="aspect-video overflow-hidden">
                   <img src={c.thumbnail} alt={c.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>

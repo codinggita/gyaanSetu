@@ -21,9 +21,28 @@ export const courseService = {
     return courseModules;
   },
   async myCourses() {
-    if (useReal) return (await api.get("/me/courses")).data;
+    if (useReal) {
+      const enrollments = (await api.get("/enroll/my")).data;
+      return enrollments.map(e => ({ ...e.course, progress: e.progress, enrollmentId: e._id }));
+    }
     await fakeDelay();
     return mockCourses.filter((c) => (c.progress ?? 0) > 0);
+  },
+  async enroll(courseId) {
+    if (useReal) return (await api.post(`/enroll/${courseId}`)).data;
+    await fakeDelay();
+    return { ok: true };
+  },
+  async getStatus(courseId) {
+    if (useReal) return (await api.get(`/enroll/status/${courseId}`)).data;
+    await fakeDelay();
+    const c = mockCourses.find(x => x.id === courseId || x.slug === courseId);
+    return { enrolled: !!c, progress: c?.progress || 0, completedLessons: [] };
+  },
+  async updateProgress(courseId, lessonId) {
+    if (useReal) return (await api.patch(`/enroll/progress/${courseId}`, { lessonId })).data;
+    await fakeDelay();
+    return { ok: true };
   },
   async create(payload) {
     if (useReal) return (await api.post("/courses", payload)).data;
