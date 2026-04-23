@@ -51,6 +51,23 @@ export function AuthProvider({ children }) {
     toast.success("Signed out");
   }, []);
 
+  const updateUser = useCallback(async (payload) => {
+    setLoading(true);
+    try {
+      const { user, token: newToken } = await authService.updateProfile(payload);
+      if (newToken) {
+        safeSet(STORAGE_KEYS.token, newToken);
+        setToken(newToken);
+      }
+      safeSet(STORAGE_KEYS.user, user);
+      setUser(user);
+      toast.success("Profile updated successfully!");
+      return user;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
@@ -59,10 +76,11 @@ export function AuthProvider({ children }) {
       login,
       signup,
       logout,
+      updateUser,
       isAuthenticated: !!user && !!token,
       isAdmin: user?.role === "admin",
     }),
-    [user, token, loading, login, signup, logout],
+    [user, token, loading, login, signup, logout, updateUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
