@@ -15,9 +15,13 @@ export default function ForgotPassword() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data) => {
-    await authService.forgotPassword(data.email);
-    setSent(true);
-    toast.success("Check your inbox for a reset link.");
+    try {
+      await authService.forgotPassword(data.email);
+      setSent(true);
+      toast.success("Check your inbox for a reset link.");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send reset link");
+    }
   };
 
   return (

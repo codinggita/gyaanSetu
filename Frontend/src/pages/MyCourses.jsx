@@ -20,7 +20,7 @@ export default function MyCourses() {
         ) : (
           <div className="grid md:grid-cols-3 gap-6">
             {data.map((c) => (
-              <Link key={c.id} to={`/learn/${c.slug}/ls_5`} className="bg-surface-container-lowest rounded-2xl overflow-hidden">
+              <Link key={c.id} to={`/learn/${c.slug}`} className="bg-surface-container-lowest rounded-2xl overflow-hidden">
                 <img src={c.thumbnail} alt={c.title} className="aspect-video w-full object-cover" />
                 <div className="p-5">
                   <h3 className="font-black text-on-surface">{c.title}</h3>

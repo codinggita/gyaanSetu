@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/SEO";
 import { Icon } from "@/components/Icon";
@@ -6,6 +6,7 @@ import { courseService } from "@/services/courseService";
 import { PageLoader } from "@/components/Loaders";
 import { EmptyState } from "@/components/EmptyState";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CourseDetail() {
   const { id } = useParams();
@@ -19,7 +20,30 @@ export default function CourseDetail() {
     queryFn: () => courseService.modules(id),
     enabled: !!id,
   });
+  const { data: status, refetch: refetchStatus } = useQuery({
+    queryKey: ["enrollment-status", id],
+    queryFn: () => courseService.getStatus(course?.id),
+    enabled: !!course?.id,
+  });
+
   const [tab, setTab] = useState("overview");
+  const [enrolling, setEnrolling] = useState(false);
+  const navigate = useNavigate();
+
+  const handleEnroll = async () => {
+    if (!course?.id) return;
+    setEnrolling(true);
+    try {
+      await courseService.enroll(course.id);
+      await refetchStatus();
+      toast.success("Enrolled successfully!");
+      navigate(`/learn/${course.slug}`);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to enroll");
+    } finally {
+      setEnrolling(false);
+    }
+  };
 
   if (isLoading) return <PageLoader />;
   if (!course) return <EmptyState icon="search_off" title="Course not found" description="The course you're looking for doesn't exist." />;
@@ -77,12 +101,24 @@ export default function CourseDetail() {
             <img src={course.thumbnail} alt={course.title} className="w-full aspect-video object-cover rounded-xl mb-5" />
             <p className="text-3xl font-black text-primary mb-1">₹{course.price}</p>
             <p className="text-on-surface-variant text-xs mb-5">One-time payment · Lifetime access</p>
-            <Link
-              to={`/learn/${course.slug}/${modules?.[0]?.lessons?.[0]?.id ?? "ls_1"}`}
-              className="block w-full text-center px-6 py-3 primary-gradient text-on-primary font-bold rounded-xl mb-3 hover:shadow-ambient transition-shadow"
-            >
-              Enroll & Start Learning
-            </Link>
+            
+            {status?.enrolled ? (
+              <Link
+                to={`/learn/${course.slug}/${modules?.[0]?.lessons?.[0]?.id ?? "ls_1"}`}
+                className="block w-full text-center px-6 py-3 primary-gradient text-on-primary font-bold rounded-xl mb-3 hover:shadow-ambient transition-shadow"
+              >
+                Continue Learning
+              </Link>
+            ) : (
+              <button
+                onClick={handleEnroll}
+                disabled={enrolling}
+                className="block w-full text-center px-6 py-3 primary-gradient text-on-primary font-bold rounded-xl mb-3 hover:shadow-ambient transition-shadow disabled:opacity-50"
+              >
+                {enrolling ? "Enrolling..." : "Enroll & Start Learning"}
+              </button>
+            )}
+
             <button className="w-full px-6 py-3 bg-surface-container-low text-on-surface font-bold rounded-xl hover:bg-surface-container transition-colors">
               Add to wishlist
             </button>

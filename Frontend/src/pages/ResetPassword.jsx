@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { authService } from "@/services/authService";
 import { toast } from "sonner";
@@ -12,12 +12,17 @@ const schema = z.object({
 }).refine((d) => d.password === d.confirm, { message: "Passwords don't match", path: ["confirm"] });
 
 export default function ResetPassword() {
+  const { token } = useParams();
   const nav = useNavigate();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema) });
   const onSubmit = async (data) => {
-    await authService.resetPassword("token", data.password);
-    toast.success("Password updated. Please sign in.");
-    nav("/login");
+    try {
+      await authService.resetPassword(token, data.password);
+      toast.success("Password updated. Please sign in.");
+      nav("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to reset password");
+    }
   };
   return (
     <div className="min-h-screen grid place-items-center bg-surface px-6">
