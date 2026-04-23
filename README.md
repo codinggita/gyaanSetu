@@ -1,39 +1,40 @@
 # 🌉 GyaanSetu (ज्ञानसेतु) — The Digital Courtyard
 
-**GyaanSetu** is a premium, high-performance EdTech platform designed for the modern Indian learner. It bridges the gap between theory and industry by providing technical education in regional languages (Hindi, Gujarati, and English) integrated with cloud-based hands-on labs.
+**GyaanSetu** is a premium, production-ready EdTech platform designed for the modern Indian learner. It bridges the gap between theory and industry by providing technical education in regional languages (Hindi, Gujarati, and English) integrated with cloud-based hands-on labs, real-time progress tracking, and professional content management.
 
 ---
 
 ## 🚀 Key Features
 
 - **🌍 Multi-Language Support**: Complete content localization in **Hindi**, **Gujarati**, and **English**.
+- **🎓 Learning Management System (LMS)**: Persistent course enrollment with lesson-by-lesson progress tracking and "Resume Learning" capabilities.
+- **⚡ Real-Time Social Proof**: Live notifications powered by **Socket.io** broadcast student achievements and enrollments globally.
 - **🧪 Hands-on Labs**: Integrated, browser-based coding environments for "Learning by Doing."
-- **🏗️ Project-Based Learning**: Real-world project catalogs with milestone tracking and workspaces.
-- **🛡️ Protected Dashboards**: Role-based access control for Students and Admins.
-- **✨ Premium UI/UX**: Built with the "Radiant Scholar" design system using Shadcn UI, Tailwind CSS, and Framer Motion.
-- **📊 Real-time Stats**: Gamified learning with XP, streaks, and achievement badges.
-- **⚙️ Admin Console**: Professional management suite for users, courses, and analytics.
+- **🛡️ Advanced Security**: Robust authentication flow with JWT, protected routes, and secure **Forgot/Reset Password** via email tokens.
+- **⚙️ Admin CMS**: Professional dashboard for full CRUD control over courses, curriculum modules, and user role management.
+- **🖼️ Asset Management**: High-performance image and avatar uploads powered by **Cloudinary**.
+- **✨ Premium UI/UX**: Built with the "Radiant Scholar" design system using Tailwind CSS and a curated color palette.
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Core Architecture
+### Backend (The Brain)
+- **Node.js & Express**: High-performance API architecture.
+- **MongoDB & Mongoose**: Flexible document storage with virtuals and automated schema transforms.
+- **Socket.io**: Real-time bidirectional event communication.
+- **Multer & Cloudinary**: Secure multi-part file uploads and cloud asset optimization.
+- **Nodemailer**: Automated transactional email system for authentication flows.
+
+### Frontend (The Interface)
 - **React 18 + Vite**: Lightning-fast development and optimized production builds.
-- **JavaScript (ES6+)**: Pure JS codebase for maximum performance and build simplicity.
-- **React Router v6**: Complex, lazy-loaded routing with guards.
+- **TanStack Query (React Query)**: Enterprise-grade server state management and caching.
+- **React Router v6**: Dynamic, lazy-loaded routing with robust guards.
+- **Sonner & Toaster**: Modern, responsive feedback systems for user interactions.
 
-### Design & Prototyping
-- **🎨 Figma Design**: [GyaanSetu Digital Courtyard](https://www.figma.com/design/VJS8z63ENFBdYR7R6728i3/GyaanSetu?node-id=0-1&t=z29S6KUnC5jqRb88-1)
-- **Shadcn UI (Radix)**: Accessible, high-quality component primitives.
-- **Tailwind CSS**: Utility-first styling with the "Radiant Scholar" system.
-
-
-### Engineering Excellence
-- **Formik & Yup / React Hook Form & Zod**: Multi-standard form handling and validation.
-- **react-window**: List virtualization for handling large datasets efficiently.
-- **Socket.io Ready**: Centralized service for real-time features.
-- **Vitest**: Modern testing suite for unit and integration tests.
+### Infrastructure & DevOps
+- **Docker & Docker Compose**: Containerized architecture for guaranteed consistency between dev and production.
+- **Nginx**: High-performance web server for static asset serving in production.
 
 ---
 
@@ -41,17 +42,20 @@
 
 ```bash
 GyaanSetu/
-├── Frontend/           # Primary React Application
+├── Backend/            # Node.js API Service
+│   ├── config/         # DB & Cloudinary configurations
+│   ├── controllers/    # Business logic (Auth, Courses, Enrollments, Admin)
+│   ├── models/         # Mongoose Schemas (User, Course, Enrollment, etc.)
+│   ├── routes/         # Express API Endpoints
+│   └── middleware/     # Auth & Role-based access control
+├── Frontend/           # React Client Application
 │   ├── src/
-│   │   ├── components/ # Atomic & Reusable UI (Shadcn, MUI)
-│   │   ├── contexts/   # React Context Providers
-│   │   ├── features/   # Feature-specific logic & components
-│   │   ├── hooks/      # Custom reusable hooks
-│   │   ├── lib/        # Shared utilities (storage, cn, etc.)
+│   │   ├── components/ # Reusable UI Components
+│   │   ├── contexts/   # Global State (Auth, Socket, Theme, Language)
 │   │   ├── pages/      # View components (Lazy loaded)
-│   │   ├── services/   # API & Socket service layers
-│   │   └── store/      # Redux Toolkit slices
-│   └── public/         # Static assets & SEO files
+│   │   ├── services/   # API Client & Socket service layers
+│   │   └── lib/        # Shared utilities
+└── README.md
 ```
 
 ---
@@ -59,45 +63,59 @@ GyaanSetu/
 ## ⚙️ Getting Started
 
 ### Prerequisites
-- Node.js (v18+)
-- npm or yarn
+- **Node.js** (v18+)
+- **MongoDB** (Local or Atlas)
+- **Cloudinary Account** (For file uploads)
 
-### Installation
+### Installation & Setup
 
-1. **Clone the repository**:
+1. **Clone and Install**:
    ```bash
    git clone https://github.com/DhruvOzha85/GyaanSetu.git
-   cd GyaanSetu/Frontend
+   cd GyaanSetu
+   # Install Backend deps
+   cd Backend && npm install
+   # Install Frontend deps
+   cd ../Frontend && npm install
    ```
 
-2. **Install dependencies**:
-   ```bash
-   npm install
+2. **Backend Configuration**:
+   Create `Backend/.env`:
+   ```env
+   PORT=5005
+   MONGO_URI=mongodb://localhost:27017/GyaanSetu
+   JWT_SECRET=your_super_secret_key
+   CLOUDINARY_CLOUD_NAME=your_name
+   CLOUDINARY_API_KEY=your_key
+   CLOUDINARY_API_SECRET=your_secret
+   # For Email (Optional: defaults to terminal log if empty)
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASS=your_app_password
    ```
 
-3. **Configure Environment Variables**:
-   Create a `.env` file:
-   ```bash
-   VITE_API_BASE_URL=https://api.gyaansetu.in
-   VITE_GA_ID=your_ga4_id
+3. **Frontend Configuration**:
+   Create `Frontend/.env`:
+   ```env
+   VITE_API_BASE_URL=http://localhost:5005/api
+   VITE_USE_REAL_API=true
    ```
 
-4. **Launch Development Server**:
+4. **Launch Application**:
    ```bash
-   npm run dev
+   # Terminal 1: Backend
+   cd Backend && npm run dev
+   # Terminal 2: Frontend
+   cd Frontend && npm run dev
    ```
 
 ---
 
-## 🧪 Testing & Linting
+## 🐳 Docker Deployment
 
-Maintain code quality with built-in tools:
+For a production-ready setup:
 ```bash
-# Run unit tests
-npm test
-
-# Check for linting errors
-npm run lint
+# Build and start all services
+docker-compose up --build
 ```
 
 ---

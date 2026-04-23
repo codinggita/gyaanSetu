@@ -27,6 +27,16 @@ export const enrollUser = async (req, res) => {
       course: course._id,
     });
 
+    // Emit live notification
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('notification', {
+        type: 'enrollment',
+        message: `${req.user.name} just enrolled in ${course.title}!`,
+        timestamp: new Date(),
+      });
+    }
+
     res.status(201).json(enrollment);
   } catch (error) {
     res.status(500).json({ message: error.message });
