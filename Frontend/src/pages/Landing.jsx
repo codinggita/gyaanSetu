@@ -3,7 +3,7 @@ import { SEO } from "@/components/SEO";
 import { Icon } from "@/components/Icon";
 import { courses } from "@/data/mock";
 import { useLanguage } from "@/contexts/LanguageContext";
-
+import { useAuth } from "@/contexts/AuthContext";
 
 const features = [
   {
@@ -87,7 +87,7 @@ export default function Landing() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/signup"
+                to={ctaLink}
                 className="px-8 py-4 primary-gradient text-on-primary font-bold rounded-xl shadow-ambient hover:shadow-ambient-lg transition-all flex items-center gap-2"
               >
                 {t("hero.cta")}
@@ -300,7 +300,7 @@ export default function Landing() {
                 Join 50,000+ learners shipping real-world projects every month. The first lab is on us.
               </p>
               <Link
-                to="/signup"
+                to={ctaLink}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-surface-container-lowest text-primary font-bold rounded-xl hover:bg-surface-container transition-colors"
               >
                 Create your free account

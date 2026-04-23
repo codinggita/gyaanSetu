@@ -110,6 +110,27 @@ GyaanSetu/
 
 ---
 
+## 🚀 Deployment Guide
+
+### 🟢 Backend (Render)
+1. **Create Web Service**: Connect your GitHub repo.
+2. **Root Directory**: `Backend`
+3. **Build Command**: `npm install`
+4. **Start Command**: `node server.js`
+5. **Environment Variables**: Add all variables from `Backend/.env` (especially `MONGO_URI` and `JWT_SECRET`).
+
+### 🔵 Frontend (Vercel)
+1. **Import Project**: Select the repo.
+2. **Framework Preset**: `Vite`
+3. **Root Directory**: `Frontend`
+4. **Build Command**: `npm run build`
+5. **Output Directory**: `dist`
+6. **Environment Variables**: 
+   - `VITE_API_BASE_URL`: The URL of your Render backend (e.g., `https://gyaansetu-api.onrender.com/api`)
+   - `VITE_USE_REAL_API`: `true`
+
+---
+
 ## 🐳 Docker Deployment
 
 For a production-ready setup:
