@@ -21,7 +21,7 @@ const isStrongPassword = (password) => {
 // @access  Public
 export const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, gender = 'male' } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Please add all fields' });
@@ -42,11 +42,21 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Set default avatar based on gender
+    let defaultAvatar = '';
+    if (gender === 'female') {
+      defaultAvatar = 'https://avatar.iran.liara.run/public/girl';
+    } else {
+      defaultAvatar = 'https://avatar.iran.liara.run/public/boy';
+    }
+
     // Create user
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
+      gender,
+      avatar: defaultAvatar
     });
 
     if (user) {
@@ -58,6 +68,7 @@ export const signup = async (req, res) => {
           role: user.role,
           avatar: user.avatar,
           about: user.about,
+          gender: user.gender,
         },
         token: generateToken(user._id),
       });
@@ -89,6 +100,7 @@ export const login = async (req, res) => {
           role: user.role,
           avatar: user.avatar,
           about: user.about,
+          gender: user.gender,
         },
         token: generateToken(user._id),
       });
