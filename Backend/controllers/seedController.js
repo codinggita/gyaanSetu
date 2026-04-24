@@ -1,24 +1,14 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
-import User from './models/User.js';
-import Course from './models/Course.js';
-import Module from './models/Module.js';
-import Lab from './models/Lab.js';
-import Project from './models/Project.js';
-import { courses, labs, projects, courseModules } from './data/mock.js';
+import User from '../models/User.js';
+import Course from '../models/Course.js';
+import Module from '../models/Module.js';
+import Lab from '../models/Lab.js';
+import Project from '../models/Project.js';
+import { courses, labs, projects, courseModules } from '../data/mock.js';
 
-dotenv.config();
-
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/GyaanSetu')
-  .then(() => console.log('MongoDB Connected for Seeding'))
-  .catch((err) => {
-    console.error(`Error: ${err.message}`);
-    process.exit(1);
-  });
-
-const importData = async () => {
+export const seedDatabase = async (req, res) => {
   try {
+    // Clear existing data
     await Course.deleteMany();
     await Module.deleteMany();
     await Lab.deleteMany();
@@ -28,7 +18,7 @@ const importData = async () => {
     // Insert Courses
     const createdCourses = await Course.insertMany(courses);
 
-    // Insert Modules for each course (so every course has some content)
+    // Insert Modules for each course
     for (const course of createdCourses) {
       const modulesToInsert = courseModules.map(mod => ({
         courseId: course._id,
@@ -66,12 +56,8 @@ const importData = async () => {
       role: 'student'
     });
 
-    console.log('Data Imported successfully! (Including Users)');
-    process.exit();
+    res.json({ message: 'Database seeded successfully on Render!' });
   } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+    res.status(500).json({ message: error.message });
   }
 };
-
-importData();

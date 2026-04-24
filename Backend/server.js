@@ -17,13 +17,17 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: '*', // For development, allow all origins
-    methods: ['GET', 'POST'],
+    origin: ["http://localhost:5173", "https://gyaansetuu.vercel.app"],
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "https://gyaansetuu.vercel.app"],
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to MongoDB
@@ -48,6 +52,14 @@ app.use('/api/enroll', enrollmentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', apiRoutes);
+
+// Fallback: Also mount at root for resilience
+app.use('/auth', authRoutes);
+app.use('/me', meRoutes);
+app.use('/enroll', enrollmentRoutes);
+app.use('/admin', adminRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/', apiRoutes);
 
 const PORT = process.env.PORT || 5000;
 

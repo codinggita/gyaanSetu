@@ -11,17 +11,23 @@ const schema = z.object({
   name: z.string().min(2, "Enter your name"),
   email: z.string().email("Enter a valid email"),
   password: z.string().min(6, "At least 6 characters"),
+  gender: z.enum(["male", "female", "other"], { required_error: "Select gender" }),
 });
 
 export default function Signup() {
   const { signup, loading } = useAuth();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ 
+    resolver: zodResolver(schema),
+    defaultValues: { gender: "male" }
+  });
 
   const onSubmit = async (data) => {
     await signup(data);
     navigate("/language", { replace: true });
   };
+
+  const selectedGender = watch("gender");
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-surface">
@@ -47,6 +53,26 @@ export default function Signup() {
             <input type="password" {...register("password")} className="w-full mt-1.5 bg-surface-container-low rounded-xl px-4 py-3 text-on-surface outline-none focus:ring-2 focus:ring-primary" placeholder="At least 6 characters" />
             {errors.password && <p className="text-error text-xs mt-1">{errors.password.message}</p>}
           </div>
+
+          <div>
+            <label className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Gender</label>
+            <div className="grid grid-cols-3 gap-3 mt-1.5">
+              {["male", "female", "other"].map((g) => (
+                <label key={g} className={`
+                  relative cursor-pointer flex flex-col items-center p-3 rounded-xl border-2 transition-all
+                  ${selectedGender === g ? "border-primary bg-primary/5" : "border-surface-container-low bg-surface-container-low"}
+                `}>
+                  <input type="radio" {...register("gender")} value={g} className="hidden" />
+                  <Icon name={g === 'male' ? 'male' : g === 'female' ? 'female' : 'person'} className={selectedGender === g ? "text-primary" : "text-on-surface-variant"} />
+                  <span className={`text-[10px] font-bold uppercase tracking-tighter mt-1 ${selectedGender === g ? "text-primary" : "text-on-surface-variant"}`}>
+                    {g}
+                  </span>
+                </label>
+              ))}
+            </div>
+            {errors.gender && <p className="text-error text-xs mt-1">{errors.gender.message}</p>}
+          </div>
+
           <button disabled={loading} className="w-full px-6 py-3 primary-gradient text-on-primary font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-60">
             {loading ? <Icon name="progress_activity" className="animate-spin" /> : "Create account"}
           </button>
