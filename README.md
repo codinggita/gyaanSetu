@@ -4,6 +4,35 @@
 
 ---
 
+## 📌 Important Links
+* **Live Deployed Project:** [https://gyaansetuu.vercel.app/](https://gyaansetuu.vercel.app/)
+* **Backend Deployed API:** [https://gyaansetu-593c.onrender.com](https://gyaansetu-593c.onrender.com)
+* **Postman Documentation:** [https://documenter.getpostman.com/view/50839208/2sBXqKoL8c](https://documenter.getpostman.com/view/50839208/2sBXqKoL8c)
+* **Figma Design:** [View on Figma](https://www.figma.com/design/VJS8z63ENFBdYR7R6728i3/GyaanSetu?node-id=0-1&t=z29S6KUnC5jqRb88-1)
+* **YouTube Demo:** [https://youtu.be/cfDD_ksm9BU](https://youtu.be/cfDD_ksm9BU)
+
+---
+
+## 📸 Project Screenshots
+
+![GyaanSetu Banner](./Frontend/src/assets/banner.png)
+*More screenshots can be added here*
+
+---
+
+## 🎯 Problem Statement
+1. **Language Barrier**: Most high-quality technical education is exclusively in English, creating a hurdle for learners more comfortable in regional languages.
+2. **Theoretical Gap**: Traditional platforms often focus on videos and quizzes, lacking hands-on environments where students can practice what they learn.
+3. **Industry Irrelevance**: A disconnect exists between academic curriculum and the skills actually required by modern tech industries.
+
+## 💡 Solution
+- **Regional Localization**: Offers content in **Hindi, Gujarati, and English**, ensuring inclusivity.
+- **Hands-on Learning**: Integrates browser-based **Labs and Project Workspaces** to enable "Learning by Doing."
+- **LMS Excellence**: A full Learning Management System with granular progress tracking, lesson resumes, and a professional CMS for administrators.
+- **Social Learning**: Real-time broadcasts of student achievements to foster a sense of community and motivation.
+
+---
+
 ## 🚀 Key Features
 
 - **🌍 Multi-Language Support**: Complete content localization in **Hindi**, **Gujarati**, and **English**.
